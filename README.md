@@ -6,6 +6,7 @@ Team name: Stop Cyber Boolean
 Team members:
 Jennifer Goodnight
 Kevin Underwood
+Zachary Stuefen
 
 Notes:
 
