@@ -11,12 +11,14 @@ public class CSCD437Lab6Main {
     */
 
     public static void main(String[] args) {
-
         Scanner kb = new Scanner(System.in);
         nameInput(kb);
-        IntInput(kb);
-        FileInput(kb);
-        PasswordInput(kb);
+        intInput(kb);
+        fileNameInput(kb);
+        fileNameOutput(kb);
+        passwordInput(kb);
+        openOutputFile(kb);
+        String str = validate("");
     }
 
     //#1
@@ -33,13 +35,20 @@ public class CSCD437Lab6Main {
 
     //#3
     private static void fileNameInput(Scanner kb) {
-        System.out.println("Please enter the name of your input file: ");
-
+        String fileNameIn = null;
+        do {
+            System.out.println("Please enter the name of your input file: ");
+            fileNameIn = kb.nextLine();
+        } while(fileNameIn == null);
     }
 
     //#4
     private static void fileNameOutput(Scanner kb) {
-        System.out.println("Please enter the name of your output file: ");
+        String fileNameOut = null;
+        do {
+            System.out.println("Please enter the name of your output file: ");
+            fileNameOut = kb.nextLine();
+        } while(fileNameOut == null);
     }
 
     //#5
