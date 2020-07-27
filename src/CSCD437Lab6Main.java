@@ -36,19 +36,23 @@ public class CSCD437Lab6Main {
     //#3
     private static void fileNameInput(Scanner kb) {
         String fileNameIn = null;
+        File fileIn = null;
         do {
             System.out.println("Please enter the name of your input file: ");
             fileNameIn = kb.nextLine();
-        } while(fileNameIn == null);
+            fileIn = new File("fileNameIn");
+        } while(fileNameIn == null || !fileIn.exists());
     }
 
     //#4
     private static void fileNameOutput(Scanner kb) {
         String fileNameOut = null;
+        File fileOut = null;
         do {
             System.out.println("Please enter the name of your output file: ");
             fileNameOut = kb.nextLine();
-        } while(fileNameOut == null);
+            fileOut = new File("fileNameOut");
+        } while(fileNameOut == null || !fileOut.exists());
     }
 
     //#5
