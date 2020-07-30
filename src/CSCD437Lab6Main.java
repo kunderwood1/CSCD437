@@ -1,15 +1,8 @@
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.io.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Arrays;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 public class CSCD437Lab6Main {
 
@@ -20,12 +13,13 @@ public class CSCD437Lab6Main {
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
-        //nameInput(kb);
-        //intInput(kb);
-        //fileNameInput(kb);
-        //fileNameOutput(kb);
+        nameInput(kb);
+        intInput(kb);
+        fileNameInput(kb);
+        fileNameOutput(kb);
         passwordInput(kb);
         openOutputFile(kb);
+        String str = validate("");
     }
 
     //#1
@@ -66,8 +60,8 @@ public class CSCD437Lab6Main {
     }
 
     private static void fileNameInput(Scanner kb) {
-        File inpFile = null;
         String fileNameIn = null;
+        File fileIn = null;
         do {
             System.out.println("Please enter the name of your input file: ");
             fileNameIn = kb.nextLine();
@@ -82,8 +76,8 @@ public class CSCD437Lab6Main {
 
     //#4
     private static void fileNameOutput(Scanner kb) {
-        File outFile = null;
         String fileNameOut = null;
+        File fileOut = null;
         do {
             System.out.println("Please enter the name of your output file: ");
             fileNameOut = kb.nextLine();
