@@ -26,11 +26,11 @@ public class CSCD437Lab6Main {
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
-        nameInput(kb);
-        intInput(kb);
-        fileNameInput(kb);
-        fileNameOutput(kb);
-        //passwordInput(kb);
+        //nameInput(kb);
+        //intInput(kb);
+        //fileNameInput(kb);
+        //fileNameOutput(kb);
+        passwordInput(kb);
         openOutputFile(kb);
     }
 
@@ -119,7 +119,7 @@ public class CSCD437Lab6Main {
         String fileName = "Password.txt";
         File passwordFile = makePasswordFile(fileName);
         FileOutputStream fileWriter = makeFileWriter(fileName);
-        FileInputStream fileReader = makeFileReader(passwordFile);
+        Scanner reader = new Scanner(fileName);
 
         Boolean match = false;
         String firstPassword, secondPassword;
@@ -130,7 +130,7 @@ public class CSCD437Lab6Main {
 
             secondPassword = passwordInputHelper(kb, "re-");
 
-            match = verifyHashesMatch(getHashFromFileHelper(passwordFile, fileReader), makeHashForSecondHelper(passwordFile, fileReader, secondPassword));
+            match = verifyHashesMatch(getHashFromFileHelper(passwordFile, reader), makeHashForSecondHelper(reader, secondPassword, fileWriter));
         }
 
         try {
@@ -224,15 +224,25 @@ public class CSCD437Lab6Main {
             e.printStackTrace();
         }
         try {
-            fileWriter.write(salt);
-            fileWriter.write(hash);
+            for(int i = 0; i<salt.length; i++)
+                fileWriter.write(salt[i]);
+            for(int j = 0; j<salt.length; j++)
+                fileWriter.write(hash[j]);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static byte[] makeHashForSecondHelper(File passwordFile, FileInputStream reader, String password) {
-        byte [] salt = getSaltFromFileHelper(passwordFile, reader);
+    private static byte[] makeHashForSecondHelper(Scanner reader, String password, FileOutputStream writer) {
+        byte [] salt = getSaltFromFileHelper(reader);
+
+        try {
+            for(int i = 0; i<salt.length; i++)
+                writer.write(salt[i]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         SecretKeyFactory factory = null;
         byte[] hash = null;
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 512);
@@ -247,30 +257,17 @@ public class CSCD437Lab6Main {
         } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         }
-
         return hash;
     }
 
-    public static byte[] getSaltFromFileHelper(File passwordFile, FileInputStream reader) {
-        byte [] salt = new byte[(int)passwordFile.length()];
-
-        try {
-            reader.read(salt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return salt;
+    public static byte[] getSaltFromFileHelper(Scanner kb) {
+        String salt = kb.nextLine();
+        byte [] ret = salt.getBytes();
+        return ret;
     }
 
-    public static byte[] getHashFromFileHelper(File passwordFile, FileInputStream reader) {
-        byte [] hash = new byte[(int)passwordFile.length()];
-
-        try {
-            reader.read(); //TODO this should read over salt but it DOESNT yet
-            reader.read(hash);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static byte[] getHashFromFileHelper(File passwordFile, Scanner reader) {
+        byte [] hash = reader.nextLine().getBytes();
         return hash;
     }
 
