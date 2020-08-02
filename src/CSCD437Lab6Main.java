@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class CSCD437Lab6Main {
 
     /*
+     *Team Name: Stop Cyber Boolean
      *Author: Kevin Underwood, Jennifer Goodnight, Zachary Stuefen
      *Version 0.2.6
      */
