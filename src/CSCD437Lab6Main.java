@@ -1,4 +1,3 @@
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.io.*;
@@ -14,17 +13,17 @@ import java.util.regex.Pattern;
 public class CSCD437Lab6Main {
 
     /*
-     *Team Name: Stop Cyber Boolean
      *Author: Kevin Underwood, Jennifer Goodnight, Zachary Stuefen
      *Version 0.2.6
      */
-
+    private static byte[] salt= new byte[32];;
     private static String firstName;
     private static String lastName;
     private static int int1;
     private static int int2;
     private static File inpFile;
     private static File outFile;
+    private static File errorFile;
 
     public static void main(String[] args) throws IOException {
 
@@ -231,7 +230,6 @@ public class CSCD437Lab6Main {
     private static void storeFirstSaltHashHelper(String password, BufferedWriter fileWriter) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter( "errors-java.txt"));
         SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[32];
         random.nextBytes(salt);
         SecretKeyFactory factory = null;
         byte[] hash = null;
@@ -250,9 +248,10 @@ public class CSCD437Lab6Main {
             out.flush();
         }
         try {
-            fileWriter.write(salt.toString());
+            System.out.println(Arrays.toString(hash));
+            System.out.println(Arrays.toString(salt));
+            fileWriter.write(String.valueOf(hash));
             fileWriter.flush();
-            fileWriter.write(hash.toString());
         } catch (IOException e) {
             out.write(e.getMessage());
             out.flush();
@@ -265,7 +264,7 @@ public class CSCD437Lab6Main {
 
         BufferedWriter out = new BufferedWriter(new FileWriter( "errors-java.txt"));
 
-        byte [] salt = getSaltFromFileHelper(passwordFile, reader);
+
         SecretKeyFactory factory = null;
         byte[] hash = null;
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 512);
@@ -288,27 +287,13 @@ public class CSCD437Lab6Main {
         return hash;
     }
 
-    public static byte[] getSaltFromFileHelper(File passwordFile, FileInputStream reader) throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter( "errors-java.txt"));
-        byte [] salt = new byte[(int)passwordFile.length()];
-
-        try {
-            reader.read(salt);
-        } catch (IOException e) {
-            out.write(e.getMessage());
-            out.flush();
-        }
-        out.close();
-        return salt;
-    }
 
     public static byte[] getHashFromFileHelper(File passwordFile, FileInputStream reader) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter( "errors-java.txt"));
         byte [] hash = new byte[(int)passwordFile.length()];
 
         try {
-            reader.read(); //TODO this should read over salt but it DOESNT yet
-            reader.read(hash);
+            System.out.println("made it to get hash from file: "+reader.read(hash));
         } catch (IOException e) {
             out.write(e.getMessage());
             out.flush();
